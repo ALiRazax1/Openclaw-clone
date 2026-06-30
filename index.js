@@ -1,4 +1,8 @@
 #!/usr/bin/env node
+
+// =========================
+// Entry Point
+// =========================
 import {Command} from "commander";
 import  {wakeup}  from "./tui/wakeup.js";
 const program = new Command();

@@ -1,9 +1,12 @@
+// =========================
+// Welcome / Splash Screen
+// =========================
 import { select, cancel, isCancel } from "@clack/prompts";
 import chalk from "chalk";
 import figlet from "figlet"; 
 import { runCliMode } from "../modes/cli.js";
 const BANNER_FONT = "ANSI Shadow"
-const SHADOW = chalk.hex("#440eaa")
+const SHADOW = chalk.hex("#fcfcfc")
 const FACE = chalk.hex("#302ddb").bold;   
 
 function printBannerWithShadow(ascii) {
@@ -41,18 +44,18 @@ const mode = await select({
     ]
 });
 
-    if (isCancel(mode || mode === "exit")) {
-        console.log("Goodbye");
-        console.log("Exiting Cloneclaw");
+    if (isCancel(mode) || mode === "exit") {
+        console.log(chalk.green("Goodbye"));
+        console.log(chalk.yellow("Exiting Cloneclaw"));
         return
     }    
 
     if (mode === "cli") {
-        console.log("Starting CLI mode");
+        console.log(chalk.cyan("Starting CLI mode"));
         await runCliMode();
     }
     else if (mode === "telegram") {
-        console.log("Telegram is not implemented yet. Please use CLI");
+        console.log(chalk.red("Telegram is not implemented yet. Please use CLI"));
         
     }
 }

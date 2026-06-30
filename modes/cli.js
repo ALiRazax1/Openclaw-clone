@@ -1,4 +1,9 @@
+// =========================
+// CLI Mode Flow
+// =========================
 import {select, cancel, isCancel} from "@clack/prompts";
+import chalk from "chalk";
+
 async function runCliMode() {
     while(true) {
         const mode = await select({
@@ -14,12 +19,12 @@ async function runCliMode() {
             return
         }
         if(mode === "agent"){
-            console.log("agent");
+            console.log(chalk.cyan("agent"));
             
         }
-        else if (mode === "ask"){console.log("ask");
+        else if (mode === "ask"){console.log(chalk.magenta("ask"));
         }
-        else if (mode === "plan"){console.log("plan");
+        else if (mode === "plan"){console.log(chalk.yellow("plan"));
         }
 
     }   
