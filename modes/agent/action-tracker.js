@@ -1,10 +1,10 @@
-import { isMutationType } from "./constant";
+import { isMutationType } from "./constant.js";
 
 export class ActionTracker{
     #actions = [] 
     log(entry){
         const action = {
-            id: entry.id ?? `action_${this.actions.length}`,
+            id: entry.id ?? `action_${this.#actions.length}`,
     
     timestamp: entry.timestamp ?? new Date(),
     

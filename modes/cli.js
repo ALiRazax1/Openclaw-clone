@@ -3,6 +3,7 @@
 // =========================
 import {select, cancel, isCancel} from "@clack/prompts";
 import chalk from "chalk";
+import { runAgentMode } from "../modes/agent/orchestrator.js";
 
 async function runCliMode() {
     while(true) {
@@ -19,7 +20,7 @@ async function runCliMode() {
             return
         }
         if(mode === "agent"){
-            console.log(chalk.cyan("agent"));
+            await runAgentMode();
             
         }
         else if (mode === "ask"){console.log(chalk.magenta("ask"));

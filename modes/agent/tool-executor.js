@@ -2,7 +2,7 @@ import fs from "node:fs"
 import path from "node:path"
 import { homedir } from "node:os"
 import { spawnSync } from "node:child_process"
-import { ActionTracker } from "./action-tracker"
+import { ActionTracker } from "./action-tracker.js"
 
 const TEXT_EXT = new Set([
   ".ts",
@@ -22,7 +22,7 @@ const TEXT_EXT = new Set([
   ".txt",
 ]); 
 
-function isProbalyTextFile(filePath){
+function isProbablyTextFile(filePath){
 const ext =path.extname(filePath).toLocaleLowerCase()
 return TEXT_EXT.has(ext) || ext === ""
 }
@@ -76,6 +76,33 @@ export class ToolExecutor{
       if(!fs.existsSync(abs) || !fs.statSync(abs).isFile()) return undefined;
       return fs.readFileSync(abs, "utf-8");
     }
+
+
+//     readFile(rel){
+//   try {
+//     this.#assertNotExcluded(rel, "read_file");
+//     const abs = this.#resolveSafe(rel);
+//     if(!fs.existsSync(abs) || !fs.statSync(abs).isFile()) {
+//       throw new Error(`File not found: ${rel}`);
+//     }
+//     const st = fs.statSync(abs);
+//     if (st.size > (this.#config?.maxFileSizeToRead || 500000)){
+//       throw new Error(`File too large: ${rel}`);
+//     }
+//     const text = fs.readFileSync(abs, "utf-8");
+//     this.#tracker.log({
+//       type:"code analysis",
+//       path:this.#norm(rel),
+//       details:{after: text, toolName: "read_file"},
+//       status: "executed"
+//     });
+//     return text;
+//   } catch (error) {
+//     // 🚨 THIS WILL FORCE THE REAL STACK TRACE TO SHOW IN YOUR TERMINAL
+//     console.error("CRITICAL ERROR IN READFILE:", error);
+//     throw error;
+//   }
+// }
     readFile(rel){
       this.#assertNotExcluded(rel, "read_file");
       const abs = this.#resolveSafe(rel);
@@ -292,7 +319,7 @@ export class ToolExecutor{
   queueShell(command) {
     if (!this.#config.tools.allowShellExecution)
       throw new Error("Shell execution disabled");
-    this.tracker.log({
+    this.#tracker.log({
       type: "tool_execute",
       path: "shell",
       details: { command, toolName: "execute_shell" },
