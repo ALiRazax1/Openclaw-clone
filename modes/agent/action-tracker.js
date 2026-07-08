@@ -27,7 +27,7 @@ export class ActionTracker{
         )
     }
 
-    updateStatus(id, userApproved){
+    updateStatus(id, status,userApproved){
         const a = this.#actions.find((x)=> x.id === id);
         if (!a) return;
         a.status = status;

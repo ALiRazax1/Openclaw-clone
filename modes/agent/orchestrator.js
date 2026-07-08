@@ -12,6 +12,7 @@ import { createAgentTools } from "./agent-tool.js";
 import { stepCountIs } from "ai";
 import { renderTerminalMarkdown } from "../../tui/terminal-md.js";
 import { runApprovalFlow } from "./approval.js";
+
 export async function runAgentMode (){
 console.log(chalk.blue("Agent Mode"));
     const goal = await text(
@@ -40,17 +41,17 @@ console.log(chalk.blue("Agent Mode"));
         onStepFinish: ({toolCalls})=>{
             for (const tc of toolCalls) {
             const preview = JSON.stringify(tc.input).slice(0, 160);
-            console.log(`Completed ${String(tc.toolName)} ${preview} ${preview.length>= 160?"...":""}` );
+            console.log(chalk.cyan(`Completed ${String(tc.toolName)} ${preview} ${preview.length>= 160?"...":""}`));
             
             }
         }
     })
     if(result.text?.trim()) console.log(renderTerminalMarkdown(result.text));
     const ok = await runApprovalFlow(tracker) 
-    if(!ok) return executor.clearStagging()      
+    if(!ok) return executor.clearStaging()      
     const {errors} = executor.applyApprovedFromTracker()
     if(errors.length){
-        console.log("Some operations reported errors:");
+        console.log(chalk.red("Some operations reported errors:"));
         for (const e of errors) console.log(chalk.red(`  • ${e}`));
         
     }
